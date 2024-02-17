@@ -17,8 +17,4 @@
     <ProjectReference Include="..\GabrielesProject.MovieReviewSystem.Application\GabrielesProject.MovieReviewSystem.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

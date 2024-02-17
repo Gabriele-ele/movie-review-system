@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GabrielesProject.MovieReviewSystem.Application.Interfaces;
+using GabrielesProject.MovieReviewSystem.Infrastracture.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using System.Data;
 
@@ -10,5 +12,7 @@ public static class DependencyInjection
     {
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         services.AddScoped<IDbConnection>(sp => new NpgsqlConnection(dbConnectionString));
+        services.AddScoped<IMovieRepository, MovieRepository>();
+        services.AddScoped<IMovieRatingsRepository, MovieRatingsRepository>();
     }
 }
