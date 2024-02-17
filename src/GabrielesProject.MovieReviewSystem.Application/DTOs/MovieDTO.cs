@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace GabrielesProject.MovieReviewSystem.Application.DTOs;
 
-namespace GabrielesProject.MovieReviewSystem.Application.DTOs;
-
-public class MovieDTO
+public record MovieDTO
 {
     public int Id { get; set; }
 
@@ -16,5 +10,5 @@ public class MovieDTO
 
     public decimal Rating { get; set; }
 
-    public string? Comments { get; set; }
+    public List<CommentsDTO> Comments { get; set; } = new();
 }

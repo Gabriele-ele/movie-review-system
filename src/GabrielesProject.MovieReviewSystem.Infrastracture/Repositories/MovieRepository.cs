@@ -14,25 +14,28 @@ public class MovieRepository : IMovieRepository
         _connection = connection;
     }
 
-    public IEnumerable<Movie> GetMovies()
+    public Task<Movie?> GetMovieAsync(int id)
     {
-        return _connection.Query<Movie>("SELECT * FROM movies");
+        return _connection.QueryFirstOrDefaultAsync<Movie>("SELECT * FROM movies WHERE id=@id", new { id });
     }
 
-    public void AddMovie(Movie movie)
+    public Task<IEnumerable<Movie>> GetMoviesAsync()
     {
-        //string sql = @"INSERT INTO movies (title, summary) VALUES (@title, @summary) RETURNING *";
-        //return _connection.QuerySingleOrDefault<Movie>(sql, movie);
-        _connection.Execute("INSERT INTO movies (title, summary) VALUES (@title, @summary) RETURNING *", movie);
+        return _connection.QueryAsync<Movie>("SELECT * FROM movies");
     }
 
-    public void DeleteMovie(int id)
+    public Task<int> AddMovieAsync(Movie movie)
     {
-        _connection.Execute("DELETE FROM movies WHERE id=@id");
+       return _connection.ExecuteAsync("INSERT INTO movies (title, summary) VALUES (@title, @summary) RETURNING *", new { movie });
     }
 
-    public void UpdateMovie(string title, string summary)
+    public Task<int> DeleteMovieAsync(int id)
     {
-        _connection.Execute("UPDATE movies SET title=@title, summary=@summary RETURNING *");
+       return _connection.ExecuteAsync("DELETE FROM movies WHERE id=@id", new { id });
+    }
+
+    public Task<IEnumerable<Movie>> GetMoviesAsync (int minRating, int maxRating)
+    {
+        return _connection.QueryAsync<Movie>("SELECT m.* FROM movies m JOIN ratings r ON m.id = r.movie_id WHERE r.rating >= @minRating AND r.rating <= @maxRating", new { minRating, maxRating} );
     }
 }

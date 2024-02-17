@@ -1,19 +1,16 @@
 ﻿using GabrielesProject.MovieReviewSystem.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GabrielesProject.MovieReviewSystem.Application.Interfaces;
 
 public interface IMovieRepository
 {
-    public IEnumerable<Movie> GetMovies();
+    public Task<IEnumerable<Movie>> GetMoviesAsync();
 
-    public void AddMovie(Movie movie);
+    public Task<Movie?> GetMovieAsync(int id);
 
-    public void UpdateMovie(string title, string summary);//?
+    public Task<int> AddMovieAsync(Movie movie);
 
-    public void DeleteMovie(int id);
+    public Task<IEnumerable<Movie>> GetMoviesAsync(int minRating, int maxRating);
+
+    public Task<int> DeleteMovieAsync(int id);
 }

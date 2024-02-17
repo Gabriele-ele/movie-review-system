@@ -13,15 +13,15 @@ public class MovieRatingsRepository : IMovieRatingsRepository
         _connection = connection;
     }
 
-    public void GetRatings()
+    public async Task<IEnumerable<int>> GetRatingsAsync(int movieId)
     {
-        _connection.Execute("SELECT * FROM ratings");
+        return await _connection.QueryAsync<int>("SELECT rating_number FROM ratings WHERE movie_id=@movieId", new { movieId });
     }
 
-    public void UpdateRatings(int movieId, int ratingNumber)
+    public Task AddRatingAsync(int movieId, int ratingNumber)
     {
-        string sql = @"UPDATE ratings SET rating_number=@ratingNumber WHERE movie_id=@movieId";
+        string sql = @"INSERT INTO ratings (movie_id, rating_number) VALUES (@movieId, @ratingNumber)";
 
-        _connection.Execute(sql, new { movieId, ratingNumber });
+        return _connection.ExecuteAsync(sql, new { movieId, ratingNumber });
     }
 }
