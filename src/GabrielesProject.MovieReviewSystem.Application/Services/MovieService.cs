@@ -51,7 +51,7 @@ public class MovieService : IMovieService
     {
         var moviesFromDb = await _movieRepository.GetMoviesAsync(minRating ?? 0, maxRating ?? 5);
         var movies = await ConvertToDto(moviesFromDb);
-        return movies.Where(m => m.Rating >= minRating && m.Rating <= maxRating);
+        return movies.Where(m => m.Rating >= minRating && m.Rating <= maxRating).OrderBy(m=>m.Rating);
     }
 
     public Task RateMovieAsync(int id, int rating)
