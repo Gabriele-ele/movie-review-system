@@ -26,7 +26,7 @@ public class MovieRepository : IMovieRepository
 
     public Task<int> AddMovieAsync(Movie movie)
     {
-       return _connection.ExecuteAsync("INSERT INTO movies (title, summary) VALUES (@title, @summary) RETURNING *", new { movie });
+       return _connection.ExecuteAsync("INSERT INTO movies (title, summary) VALUES (@title, @summary) RETURNING id",  movie);
     }
 
     public Task<int> DeleteMovieAsync(int id)

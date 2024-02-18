@@ -8,5 +8,5 @@ namespace GabrielesProject.MovieReviewSystem.Application.Interfaces;
 
 public interface IMovieRatingsService
 {
-    public Task<>
+    //public Task<>
 }
