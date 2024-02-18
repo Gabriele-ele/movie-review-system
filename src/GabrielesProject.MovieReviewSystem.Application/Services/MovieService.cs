@@ -1,8 +1,6 @@
 ﻿using GabrielesProject.MovieReviewSystem.Application.DTOs;
 using GabrielesProject.MovieReviewSystem.Application.Interfaces;
 using GabrielesProject.MovieReviewSystem.Domain.Entities;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace GabrielesProject.MovieReviewSystem.Application.Services;
 
@@ -17,6 +15,12 @@ public class MovieService : IMovieService
         _movieRepository = movieRepository;
         _commentsService = commentsService;
         _ratingsRepository = ratingsRepository;
+    }
+
+    public async Task<IEnumerable<MovieDTO>> GetMoviesAsync()
+    {
+        var moviesFromDb = await _movieRepository.GetMoviesAsync();
+        return await ConvertToDto(moviesFromDb);
     }
 
     public async Task<MovieDTO?> AddMovieAsync(CreateMovieArgs movie)
@@ -57,8 +61,8 @@ public class MovieService : IMovieService
 
     private async Task<decimal?> GetAverageRatings(int movieId)
     {
-        var ratings = await _ratingsRepository.GetRatingsAsync(movieId);
-        if (ratings.Any())
+        var ratings = (await _ratingsRepository.GetRatingsAsync(movieId)).ToList();
+        if (ratings.Count > 0)
         {
             return (decimal)ratings.Average();
         }
@@ -89,13 +93,8 @@ public class MovieService : IMovieService
     private async Task<MovieDTO> ConvertToDto(Movie movieFromDb)
     {
         var movie = new MovieDTO { Id = movieFromDb.Id, Title = movieFromDb.Title, Summary = movieFromDb.Summary };
-        movie.Rating = (decimal)await GetAverageRatings(movie.Id);
+        movie.Rating = (await GetAverageRatings(movie.Id)) ?? 0;
         movie.Comments = await GetFiveComments(movie.Id);
         return movie;
-    }
-
-    public Task<IEnumerable<MovieDTO>> GetMoviesAsync()
-    {
-        throw new NotImplementedException();
     }
 }
