@@ -17,7 +17,7 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<MovieDTO>> Get([FromQuery] int? minRating, [FromQuery] int? maxRating)//no filtering
+    public async Task<IEnumerable<MovieDTO>> Get([FromQuery] int? minRating, [FromQuery] int? maxRating)
     {
         if (minRating is null && maxRating is null)
         {

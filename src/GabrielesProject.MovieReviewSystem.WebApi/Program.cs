@@ -1,10 +1,5 @@
-using Npgsql;
-using System.Data;
-using GabrielesProject.MovieReviewSystem.Infrastracture;
 using GabrielesProject.MovieReviewSystem.Application;
-using Serilog;
-using GabrielesProject.MovieReviewSystem.Application.Services;
-using GabrielesProject.MovieReviewSystem.Application.Interfaces;
+using GabrielesProject.MovieReviewSystem.Infrastracture;
 
 var builder = WebApplication.CreateBuilder(args);
 string? dbConnectionString = builder.Configuration.GetConnectionString("PostgreConnection");

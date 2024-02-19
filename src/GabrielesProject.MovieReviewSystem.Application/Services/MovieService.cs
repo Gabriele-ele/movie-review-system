@@ -1,6 +1,7 @@
 ﻿using GabrielesProject.MovieReviewSystem.Application.DTOs;
 using GabrielesProject.MovieReviewSystem.Application.Interfaces;
 using GabrielesProject.MovieReviewSystem.Domain.Entities;
+using GabrielesProject.MovieReviewSystem.Domain.Exceptions;
 
 namespace GabrielesProject.MovieReviewSystem.Application.Services;
 
@@ -39,7 +40,7 @@ public class MovieService : IMovieService
         var movieFromDb = await _movieRepository.GetMovieAsync(id);
         if (movieFromDb is null)
         {
-            throw new KeyNotFoundException();
+            throw new MovieNotFoundException("No movie with this id exists");
         }
 
         MovieDTO movie = await ConvertToDto(movieFromDb);
